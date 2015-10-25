@@ -18,6 +18,7 @@ class Train:
     def compute_a_and_b(self):
         # Compute the counts for a and b
         for s in Utils.get_sentence(self.input):
+            s = s['c']  # consider cleaned sentence for training
             lines = s.split("\n")
             if lines is None or len(lines) == 0:
                 continue

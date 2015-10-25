@@ -2,8 +2,9 @@ __author__ = 'nitinpasumarthy'
 
 from Test import Test
 
-filepath = './data/entrain.txt'
+trainfilepath = './data/entrain.txt'
+testfilepath = './data/entest.txt'
 outfilepath = './data/predictedtags.txt'
 
-Test(filepath, filepath, outfilepath)
+Test(trainfilepath, testfilepath, outfilepath)
 print('Done')

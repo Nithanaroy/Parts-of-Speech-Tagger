@@ -27,9 +27,12 @@ class Test:
 
         with open(abs_filepath, 'w') as f:
             for i, s in enumerate(Utils.get_sentence(self.testfile)):
+                original_sentence = s['o']  # original raw sentence from file
+                s = s['c']  # cleaned sentence
                 untagged_sentence = self.remove_tags(s)
+                untagged_original_sentence = self.remove_tags(original_sentence)
                 tags = Tagger(self.model, untagged_sentence).tag()
-                tagged_sentence = self.attach_tags(untagged_sentence, tags)
+                tagged_sentence = self.attach_tags(untagged_original_sentence, tags)
                 Utils.write_sentence(f, tagged_sentence)
 
                 if i % 100 == 0:
@@ -47,6 +50,7 @@ class Test:
         :return: tagged sentence with word/its_tag one per line
         """
         words = sentence.split('\n')
+        tags = [tag.upper() for tag in tags]  # Always print tags in upper case
         return '\n'.join([w + "/" + t for w, t in zip(words, tags)])
 
     def remove_tags(self, sentence):

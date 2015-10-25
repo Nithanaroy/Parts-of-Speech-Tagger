@@ -1,13 +1,14 @@
 __author__ = 'nitinpasumarthy'
 
 SENTENCE_SEPARATOR = '###/###'
+WORD_TAG_SEPARATOR = '/'
 DEBUG = True
 
 
 def get_sentence(filepath):
     """
     iteratively returns sentences from the input file
-    :return:
+    :return: {o: original sentence, 'c': cleaned sentence}
     """
     import os
 
@@ -20,7 +21,7 @@ def get_sentence(filepath):
     for l in lines:
         if l == SENTENCE_SEPARATOR:
             if sentence != "":
-                yield clean_sentence(sentence)
+                yield {'o': sentence.strip(), 'c': clean_sentence(sentence)}
             sentence = ""
         else:
             sentence += l + "\n"
@@ -45,8 +46,9 @@ def write_sentence(f, sentence):
 
 def clean_sentence(sentence):
     """
-    Clean the setence - stemming, change to lower case etc...
-    :param sentence: sentence to clean
+    Clean the sentence - stemming, change to lower case etc...
+    :param sentence: sentence to clean, one word per line - word/tag
     :return: cleaned sentence
     """
-    return sentence.strip()
+    # TODO: Remove #/# lines as they don't appear in the test set, but appear in the train data
+    return sentence.strip().lower()
