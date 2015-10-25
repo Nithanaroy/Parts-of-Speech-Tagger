@@ -6,5 +6,6 @@ trainfilepath = './data/entrain.txt'
 testfilepath = './data/entest.txt'
 outfilepath = './data/predictedtags.txt'
 
-Test(trainfilepath, testfilepath, outfilepath)
+tester = Test(trainfilepath, testfilepath, outfilepath)
+print("error_rate = ".format(tester.error_rate(outfilepath, testfilepath)))
 print('Done')

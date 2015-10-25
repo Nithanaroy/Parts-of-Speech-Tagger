@@ -17,6 +17,7 @@ class Test:
         self.outfile = outfile
 
         self.model = Train(trainfile)
+        logging.info("Training complete...")
         self.save_results()
 
     def save_results(self):
@@ -36,10 +37,27 @@ class Test:
                 Utils.write_sentence(f, tagged_sentence)
 
                 if i % 100 == 0:
-                    logging.info("{}% done. Tagged: {}".format(round(i / total * 100.0, 2), s.replace("\n", " ")))
-                    # break
+                    logging.info("{}% done. Last tagged: {}".format(round(i / total * 100.0, 2), s.replace("\n", " ")))
+                # break
 
             f.write(Utils.SENTENCE_SEPARATOR)
+
+    def error_rate(self, actual_file, expected_file):
+        import os
+        abs_actual_file = os.path.abspath(actual_file)
+        abs_expected_file = os.path.abspath(expected_file)
+        actual_lines = open(abs_actual_file).read().splitlines()  # TODO: May not work if file doesn't fit in memory
+        expected_lines = open(abs_expected_file).read().splitlines()  # TODO: May not work if file doesn't fit in memory
+
+        mismatch_count = 0
+        total_lines = len(expected_lines)
+        matching_count = min(len(actual_lines), total_lines)
+        for i in range(0, matching_count):
+            if actual_lines[i].lower() != expected_lines[i].lower():  # TODO: Works for ASCII perfectly
+                mismatch_count += 1
+
+        mismatch_count += total_lines - matching_count
+        return mismatch_count / float(total_lines)
 
     def attach_tags(self, sentence, tags):
         """
