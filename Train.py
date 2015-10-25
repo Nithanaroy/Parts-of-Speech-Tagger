@@ -1,6 +1,7 @@
 __author__ = 'nitinpasumarthy'
 
-SENTENCE_SEPARATOR = '###/###'
+import Utils
+
 START_STATE_SYMBOL = 'A'    # Beware of the assumption that it should be only 1 character
 
 
@@ -16,7 +17,7 @@ class Train:
 
     def compute_a_and_b(self):
         # Compute the counts for a and b
-        for s in self.get_sentence():
+        for s in Utils.get_sentence(self.input):
             lines = s.split("\n")
             if lines is None or len(lines) == 0:
                 continue
@@ -31,7 +32,7 @@ class Train:
 
             # For when pt takes the last word/tag in the sentence, as the loop breaks
             self.upsert_inc(self.states, pt)
-            break
+            # break
 
         # Now normalize the counts to get probabilities
         for si_sj in self.a:
@@ -88,32 +89,3 @@ class Train:
             dictionary[key] += 1
         else:
             dictionary[key] = 1
-
-    def get_sentence(self):
-        """
-        iteratively returns sentences from the input file
-        :return:
-        """
-        import os
-
-        abs_filepath = os.path.abspath(self.input)
-        f = open(abs_filepath)
-        lines = f.read().splitlines()       # TODO: May not work if file is huge
-        f.close()
-
-        sentence = ""
-        for l in lines:
-            if l == SENTENCE_SEPARATOR:
-                if sentence != "":
-                    yield self.clean_sentence(sentence)
-                sentence = ""
-            else:
-                sentence += l + "\n"
-
-    def clean_sentence(self, sentence):
-        """
-        Clean the setence - stemming, change to lower case etc...
-        :param sentence: sentence to clean
-        :return: cleaned sentence
-        """
-        return sentence.strip()

@@ -1,27 +1,9 @@
 __author__ = 'nitinpasumarthy'
 
-from Train import Train
-from Tagger import Tagger
+from Test import Test
 
-t = Train('./data/entrain.txt')
-s = """When
-such
-claims
-and
-litigation
-extend
-beyond
-the
-period
-,
-the
-syndicates
-can
-extend
-their
-accounting
-deadlines
-."""
-tg = Tagger(t, s)
-print tg.tag()
+filepath = './data/entrain.txt'
+outfilepath = './data/predictedtags.txt'
+
+Test(filepath, filepath, outfilepath)
 print('Done')

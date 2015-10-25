@@ -1,5 +1,7 @@
 __author__ = 'nitinpasumarthy'
 
+import Utils
+
 
 class Tagger:
     def __init__(self, hmm_model, sentence):
@@ -10,10 +12,10 @@ class Tagger:
         :return: tagger object
         """
         self.model = hmm_model
-        self.sentence = hmm_model.clean_sentence(sentence)
+        self.sentence = Utils.clean_sentence(sentence)
 
     def tag(self):
-        v = list()
+        v = list()  # state probabilities for each observation
         v.append(self.get_v1())
         words = self.sentence.split('\n')[1:]  # First word is already used for computing v1
         for i, w in enumerate(words):
