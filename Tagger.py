@@ -77,7 +77,7 @@ class Tagger:
             key_for_a = self.model.get_key_from_states_for_a(start_state, state)
             key_for_b = self.model.get_key_from_stateobv_for_b(state, word0)
             try:
-                v1[state] = self.model.a[key_for_a] * self.model.b[key_for_b]
+                v1[state] = self.model.a[key_for_a] * self.get_bjk(state, word0)
             except KeyError:
                 # some keys might not be defined by train set.
                 v1[state] = 0
